@@ -107,3 +107,7 @@ tours/
 - Existing files are skipped to allow resuming interrupted downloads
 - Missing skybox images are reported but don't stop the entire process
 - Temporary files are automatically cleaned up after conversion
+
+## Disclaimer
+
+This script is 100% vibe coded, I take no responsability for anything. It builts on previous scripts by [fdd4s](https://github.com/fdd4s). This script is in no way shape or form associated with or endorsed by Matterport LLC
