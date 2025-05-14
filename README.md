@@ -49,7 +49,7 @@ pip install uv
 1. Clone this repository
 2. Install Python dependencies using UV:
    ```bash
-   uv pip install -r requirements.txt
+   uv sync
    ```
 
 ## Usage
