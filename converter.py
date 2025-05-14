@@ -147,7 +147,6 @@ def convert_skybox_to_equirectangular(
             "-LargestValidInteriorRectTop=0",
             f"-LargestValidInteriorRectWidth={width}",
             f"-LargestValidInteriorRectHeight={height}",
-            "-Model=github fdd4s",
             str(temp_jpg),
         ]
         subprocess.run(exiftool_cmd, check=True, capture_output=True)
