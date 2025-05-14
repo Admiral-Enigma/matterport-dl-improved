@@ -59,19 +59,19 @@ pip install uv
 To download a tour and convert all skybox images to equirectangular format:
 
 ```bash
-python matterport_dl.py YywKFx36u6z
+python matterport_dl.py <tour-id>
 ```
 
 ### Advanced Usage
 
 1. Download and convert with specific width:
 ```bash
-python matterport_dl.py YywKFx36u6z --width 4096
+python matterport_dl.py <tour-id> --width 4096
 ```
 
 2. Only convert existing downloaded files (skip download):
 ```bash
-python matterport_dl.py YywKFx36u6z --convert-only
+python matterport_dl.py <tour-id> --convert-only
 ```
 
 ## Output Structure
@@ -80,7 +80,7 @@ The script creates a directory structure like this:
 
 ```
 tours/
-└── YywKFx36u6z/
+└── <tour-id>/
     ├── pan-4k-f1885b7e0a7941dd92566e74ef88dd09-skybox0.jpg
     ├── pan-4k-f1885b7e0a7941dd92566e74ef88dd09-skybox1.jpg
     ├── pan-4k-f1885b7e0a7941dd92566e74ef88dd09-skybox2.jpg
