@@ -193,6 +193,7 @@ def main():
     parser.add_argument(
         "--scale",
         type=int,
+        default=100,
         choices=range(1, 101),
         metavar="1-100",
         help="Scale the final image to this percentage of original size",
