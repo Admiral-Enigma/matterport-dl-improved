@@ -9,6 +9,7 @@ import subprocess
 import time
 from converter import convert_skybox_to_equirectangular
 
+
 class MatterportDownloader:
     def __init__(self, tour_id):
         self.tour_id = tour_id
@@ -22,7 +23,7 @@ class MatterportDownloader:
             "Accept": "application/json",
             "Accept-Language": "en-US,en;q=0.5",
             "Cookie": "mp_mixpanel__c=0",
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         }
         response = requests.get(url, headers=headers)
         data = response.json()
@@ -35,7 +36,7 @@ class MatterportDownloader:
             "Accept": "application/json",
             "Accept-Language": "en-US,en;q=0.5",
             "Cookie": "mp_mixpanel__c=0",
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         }
         response = requests.get(url, headers=headers)
         data = response.json()
@@ -43,11 +44,21 @@ class MatterportDownloader:
 
     def _get_skybox_resolution(self, catalog):
         for item in catalog:
-            if "/4k/" in item and "jpg" in item and "skybox" in item and not any(x in item for x in ["dds", "zip", "lased"]):
+            if (
+                "/4k/" in item
+                and "jpg" in item
+                and "skybox" in item
+                and not any(x in item for x in ["dds", "zip", "lased"])
+            ):
                 return "/4k/"
 
         for item in catalog:
-            if "/2k/" in item and "jpg" in item and "skybox" in item and not any(x in item for x in ["dds", "zip", "lased"]):
+            if (
+                "/2k/" in item
+                and "jpg" in item
+                and "skybox" in item
+                and not any(x in item for x in ["dds", "zip", "lased"])
+            ):
                 return "/2k/"
 
         return "/high/"
@@ -70,7 +81,7 @@ class MatterportDownloader:
             "Accept": "image/png,image/*;q=0.8,*/*;q=0.5",
             "Accept-Language": "en-US,en;q=0.5",
             "origin": "https://my.matterport.com",
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         }
 
         for _ in range(3):  # Try up to 3 times
@@ -78,7 +89,7 @@ class MatterportDownloader:
                 response = requests.get(url, headers=headers, stream=True)
                 response.raise_for_status()
 
-                with open(local_path, 'wb') as f:
+                with open(local_path, "wb") as f:
                     for chunk in response.iter_content(chunk_size=8192):
                         f.write(chunk)
                 print(f"Downloaded {local_filename}")
@@ -96,8 +107,11 @@ class MatterportDownloader:
         resolution = self._get_skybox_resolution(catalog)
 
         skybox_files = [
-            item for item in catalog
-            if resolution in item and "jpg" in item and "skybox" in item
+            item
+            for item in catalog
+            if resolution in item
+            and "jpg" in item
+            and "skybox" in item
             and not any(x in item for x in ["dds", "zip", "lased"])
         ]
 
@@ -111,7 +125,8 @@ class MatterportDownloader:
 
         return results
 
-def convert_to_equirectangular(tour_id, width=None):
+
+def convert_to_equirectangular(tour_id, width=None, scale=100):
     tour_dir = Path(f"tours/{tour_id}")
     if not tour_dir.exists():
         raise Exception(f"Tour directory {tour_dir} does not exist")
@@ -160,16 +175,33 @@ def convert_to_equirectangular(tour_id, width=None):
                 top=ordered_images[4],
                 bottom=ordered_images[5],
                 output=str(output_file),
-                width=width
+                width=width,
+                scale_percent=scale,
             )
         except Exception as e:
             print(f"Error converting {base_name}: {e}")
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Download and convert Matterport virtual tours")
+    parser = argparse.ArgumentParser(
+        description="Download and convert Matterport virtual tours"
+    )
     parser.add_argument("tour_id", help="Matterport tour ID")
-    parser.add_argument("--width", type=int, help="Width of output equirectangular image")
-    parser.add_argument("--convert-only", action="store_true", help="Skip download and only convert existing files")
+    parser.add_argument(
+        "--width", type=int, help="Width of output equirectangular image"
+    )
+    parser.add_argument(
+        "--scale",
+        type=int,
+        choices=range(1, 101),
+        metavar="1-100",
+        help="Scale the final image to this percentage of original size",
+    )
+    parser.add_argument(
+        "--convert-only",
+        action="store_true",
+        help="Skip download and only convert existing files",
+    )
 
     args = parser.parse_args()
 
@@ -181,7 +213,8 @@ def main():
             print(f"Error downloading tour: {e}")
             return
 
-    convert_to_equirectangular(args.tour_id, args.width)
+    convert_to_equirectangular(args.tour_id, args.width, args.scale)
+
 
 if __name__ == "__main__":
     main()

@@ -69,6 +69,21 @@ python matterport_dl.py <tour-id>
 python matterport_dl.py <tour-id> --convert-only
 ```
 
+2. Set custom width for the equirectangular image:
+```bash
+python matterport_dl.py <tour-id> --width 4096
+```
+
+3. Scale the final image to a percentage of original size:
+```bash
+python matterport_dl.py <tour-id> --scale 75  # Scale to 75% of original size
+```
+
+4. Combine options:
+```bash
+python matterport_dl.py <tour-id> --width 4096 --scale 50 --convert-only
+```
+
 ## Output Structure
 
 The script creates a directory structure like this:
