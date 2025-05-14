@@ -12,6 +12,7 @@ This script downloads Matterport virtual tour skybox images and converts them to
 - ImageMagick (`montage` and `convert` commands)
 - `ffmpeg` and `ffprobe`
 - `exiftool`
+- UV package manager (`pip install uv`)
 
 ### Installing Prerequisites
 
@@ -25,24 +26,30 @@ This script downloads Matterport virtual tour skybox images and converts them to
    ```powershell
    winget install ExifTool
    ```
+4. Install UV:
+   ```powershell
+   pip install uv
+   ```
 
 #### Linux (Ubuntu/Debian)
 ```bash
 sudo apt-get update
 sudo apt-get install imagemagick ffmpeg libimage-exiftool-perl
+pip install uv
 ```
 
 #### macOS
 ```bash
 brew install imagemagick ffmpeg exiftool
+pip install uv
 ```
 
 ## Installation
 
 1. Clone this repository
-2. Install Python dependencies:
+2. Install Python dependencies using UV:
    ```bash
-   pip install -r requirements.txt
+   uv pip install -r requirements.txt
    ```
 
 ## Usage
