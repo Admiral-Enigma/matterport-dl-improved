@@ -64,12 +64,7 @@ python matterport_dl.py <tour-id>
 
 ### Advanced Usage
 
-1. Download and convert with specific width:
-```bash
-python matterport_dl.py <tour-id> --width 4096
-```
-
-2. Only convert existing downloaded files (skip download):
+1. Only convert existing downloaded files (skip download):
 ```bash
 python matterport_dl.py <tour-id> --convert-only
 ```
